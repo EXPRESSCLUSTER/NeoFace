@@ -12,7 +12,7 @@
  |  |   NeoFace Host Service       |
  |  |   NeoFace System Service     |
  |  | - SQL Server 2014            |
- |  | - EXPRESSCLUSTER X 4.0       |
+ |  | - CLUSTERPRO X 4.0           |
  |  +------------------------------+
  |
  |  +------------------------------+
@@ -22,7 +22,7 @@
  |  |   NeoFace Host Service       |
  |  |   NeoFace System Service     |
  |  | - SQL Server 2014            |
- |  | - EXPRESSCLUSTER X 4.0       |
+ |  | - CLUSTERPRO X 4.0           |
  |  +------------------------------+
  |
  |  +------------------------------+
