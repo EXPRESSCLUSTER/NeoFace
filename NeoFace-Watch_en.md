@@ -48,7 +48,7 @@
 ## Prerequisite
 - Do the following installation steps with **Administrator** accout.
 - Download PsExec.exe from Microsoft web site and save it on EXPRESSCLUSTER bin directory (e.g. C:\Program Files\EXPRESSCLUSTER\bin).
-- Download the script files 
+- Download the [script files](https://github.com/EXPRESSCLUSTER/NeoFace/tree/master/script/NeoFace-Watch) and save the files on EXPRESSCLUSTER bin directory (e.g. C:\Program Files\EXPRESSCLUSTER\bin).
 
 ## Install EXPRESSCLUSTER
 1. Install EXPRESSCLUSTER on both nfw01 and nfw02 following **Installation and Configuration Guide**.
