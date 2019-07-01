@@ -48,7 +48,7 @@
 ## Prerequisite
 - Do the following installation steps with **Administrator** accout.
 - Download PsExec.exe from Microsoft web site and save it on EXPRESSCLUSTER bin directory (e.g. C:\Program Files\EXPRESSCLUSTER\bin).
-- Download the [script files](https://github.com/EXPRESSCLUSTER/NeoFace/tree/master/script/NeoFace-Watch) and save the files on EXPRESSCLUSTER bin directory (e.g. C:\Program Files\EXPRESSCLUSTER\bin).
+- Download the [script files](https://github.com/EXPRESSCLUSTER/NeoFace/tree/master/script/NeoFace-Watch) and save the files on EXPRESSCLUSTER bin directory (e.g. C:\Program Files\EXPRESSCLUSTER\bin). And modify ServerList.txt to add a server runs NeoFace Processing Service.
 
 ## Install EXPRESSCLUSTER
 1. Install EXPRESSCLUSTER on both nfw01 and nfw02 following **Installation and Configuration Guide**.
@@ -117,6 +117,8 @@
    - NeoFace Watch Host Service
    - SQL Server (NEOFACE)
    - World Wide Web Publishing Service
+1. Stop the following service on **nfw04**.
+   - NeoFace Processing Service
 
 ## Add Resources to Control NeoFace
 1. Change Starup Type from Auto to **Manual** for the following services.
@@ -125,7 +127,12 @@
    - SQL Server (NEOFACE)
    - World Wide Web Publishing Service
 1. Add 4 service resources and set the above service name or service display name. And set 30 sec for **Wait time after service started** and **Wait time after service stopped** (Detai tab > Tuning).
-1. Add an application resource and 
+1. Add an application resource and set the following parameters on Detail tab.
+   - Resident Type: Non-Resident
+   - Start Path: StartNFWPS.bat
+   - Stop Path: StopNFWPS.bat
+   - Exec User (Start): Administrator account and password 
+   - Exec User (Stop): Administrator account and password 
 1. Change dependencies (Depth) of resources as below.
    |Depth|Resource Type|Resource Name|Remarks|
    |-|-------------|-------------|-------|
@@ -136,4 +143,38 @@
    |4|Service      |service-nfwss|Control NeoFace System Service|
    |5|Service      |service-nfwhs|Control NeoFace Host Service|
    |6|Application  |appli-nfwps|Restart NeoFace Processing Service on nfw04|
+1. Apply the cluster configuration.
 
+## Verify Functionality of EXPRESSCLUSTER
+1. Start the failover group on **nfw01** and check if the following services are running.
+   - nfw01
+     - NeoFace Host Service
+     - NeoFace System Service
+     - SQL Server (NEOFACE)
+     - World Wide Web Publishing Service
+   - nfw04
+     - NeoFace Processing Service
+1. Stop the failover group and check if the following services are stopped.
+   - nfw01
+     - NeoFace Host Service
+     - NeoFace System Service
+     - SQL Server (NEOFACE)
+     - World Wide Web Publishing Service
+   - nfw04
+     - NeoFace Processing Service
+1. Start the failover group on **nfw02** and check if the following services are running.
+   - nfw02
+     - NeoFace Host Service
+     - NeoFace System Service
+     - SQL Server (NEOFACE)
+     - World Wide Web Publishing Service
+   - nfw04
+     - NeoFace Processing Service
+1. Move the failover group from **nfw02** to **nfw01** and check if the following services are running.
+   - nfw01
+     - NeoFace Host Service
+     - NeoFace System Service
+     - SQL Server (NEOFACE)
+     - World Wide Web Publishing Service
+   - nfw04
+     - NeoFace Processing Service
