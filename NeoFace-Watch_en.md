@@ -5,8 +5,9 @@
 - [Install EXPRESSCLUSTER](#Install-EXPRESSCLUSTER)
 - [Create Base Cluster](#Create-Base-Cluster)
 - [Install NeoFace Watch (Single/Primary Server)](#install-neoface-watch-singleprimary-server)
-- [Install NeoFace Watch (Secondary Server)](install-neoface-watch-secondary-server)
+- [Install NeoFace Watch (Secondary Server)](#install-neoface-watch-secondary-server)
 - [Add Resources to Control NeoFace](#Add-Resources-to-Control-NeoFace)
+- [Verify Functionality of EXPRESSCLUSTER](#Verify-Functionality-of-EXPRESSCLUSTER)
 
 ## Evaluation Environment
 ```
@@ -114,7 +115,7 @@
 1. Click **Yes** to disable UAC.
 1. Set the parameters of the network camera and click **Apply Current Settings**. click Next.
 1. Finish the installer.
-1. Start the web browser and enter **floating IP address** to access 
+1. Start the web browser and enter **floating IP address** to access NeoFace Watch GUI.
 1. Stop the following services on **nfw01**.
    - NeoFace Watch System Service
    - NeoFace Watch Host Service
@@ -124,13 +125,13 @@
    - NeoFace Processing Service
 
 ## Add Resources to Control NeoFace
-1. Change Starup Type from Auto to **Manual** for the following services.
+1. Change Starup Type from Auto to **Manual** for the following services on nfw01 and nfw02.
    - NeoFace Watch System Service
    - NeoFace Watch Host Service
    - SQL Server (NEOFACE)
    - World Wide Web Publishing Service
-1. Add 4 service resources and set the above service name or service display name. And set 30 sec for **Wait time after service started** and **Wait time after service stopped** (Detai tab > Tuning).
-1. Add an application resource and set the following parameters on Detail tab.
+1. Add 4 service resources and set the above Service Name or Service Display Name. And set 30 sec for **Wait time after service started** and **Wait time after service stopped** (Detai tab > Tuning).
+1. Add an application resource and set the following parameters.
    - Resident Type: Non-Resident
    - Start Path: StartNFWPS.bat
    - Stop Path: StopNFWPS.bat

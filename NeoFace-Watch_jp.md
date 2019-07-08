@@ -6,7 +6,7 @@
 * [NeoFace Watch (Single/Primary Server) のインストール](#NeoFace-Watch-(Single/Primary-Server)-のインストール)
 * [NeoFace Watch (Secondary Server) のインストール](#NeoFace-Watch-(Secondary-Server)-のインストール)
 * [リソースおよびモニタリソースの追加](#リソースおよびモニタリソースの追加)
-
+* [クラスタの動作確認](#クラスタの動作確認)
 
 ## 評価環境
 ```
@@ -80,7 +80,7 @@
 1. **IP Address** 欄に、**フローティング IP アドレス** を入力してください。**Folder** 欄に、ミラーディスク上のパス (e.g. M:\Program Files\NEC\NeoFace\Watch\ImageLibrary) を設定してください。LM-X License Manager のポート番号、IP アドレスを設定し、Next をクリックしてください。
 1. **SQL Server/Instance** にサーバ名とインスタンス名 (e.g. NFW01/NEOFACE) を入力してください。**Username** に **WatchSA** を入力し、Next をクリックしてください。
 1. HTTP Port (既定値: 80) を入力し、Next をクリックしてください。
-1. インストール完了後、インストーラを終了します。
+1. インストール完了後、インストーラを終了してください。
 1. 以下のサービスが起動していることを確認してください。起動している場合は停止してください。
    - NeoFace Watch System Service
    - NeoFace Watch Host Service
@@ -106,22 +106,77 @@
    - NeoFace Watch Host Service
    - World Wide Web Publishing Service
 
-## Install NeoFace Watch (Secondary Server)
-1. Run NeoFace Watch installer on **nfw04**.
-1. Select **Secondary Server** and click Next.
-1. Set **floating IP address** for primary server. Set port number (e.g. 9001) and the IP address of nfw04. Click Next.
-1. Click **Yes** to disable UAC.
-1. Set the parameters of the network camera and click **Apply Current Settings**. click Next.
-1. Finish the installer.
-1. Start the web browser and enter **floating IP address** to access 
-1. Stop the following services on **nfw01**.
+## NeoFace Watch (Secondary Server) のインストール
+1. NeoFace Watch のインストーラを **nfw04** で実行してください。
+1. **Secondary Server** を選択して、Next をクリックしてください。
+1. Primary server に **フローティング IP アドレス** を入力してください。サーバ nfw04 で使用するポート番号 (e.g. 9001) および IP アドレスを入力し、Next をクリックしてください。
+1. UAC に関するポップアップが表示されるので、**Yes** をクリックし、UAC を無効にしてください。
+1. ネットワークカメラの各種パラメータを設定してください。**Apply Current Settings** をクリックし、Next をクリックしてください。
+1. インストール完了後、インストーラを終了してください。
+1. Web ブラウザを起動し、**フローティング IP アドレス** を入力し、NeoFace Watch の GUI にアクセスできることを確認してください。
+1. サーバ **nfw01** にて、以下のサービスを停止してください。
    - NeoFace Watch System Service
    - NeoFace Watch Host Service
    - SQL Server (NEOFACE)
    - World Wide Web Publishing Service
-1. Stop the following service on **nfw04**.
+1. サーバ **nfw04** にて、以下のサービスを停止してください。
    - NeoFace Processing Service
 
-## NeoFace Watch (Secondary Server) のインストール
-
 ## リソースおよびモニタリソースの追加
+1. サーバ nfw01 および nfw02 にて、以下のサービスの Starup Type を **Manual** に変更してください。
+   - NeoFace Watch System Service
+   - NeoFace Watch Host Service
+   - SQL Server (NEOFACE)
+   - World Wide Web Publishing Service
+1. 上記 4 つのサービスを制御するため、サービスリソースを4つ追加し、Service Name または Service Display Name を設定してください。それぞれのサービスリソースの **Wait time after service started** および **Wait time after service stopped** (Detai tab > Tuning) に 30 sec を設定してださい。
+1. アプリケーションリソースを追加し、以下のパラメータを設定してください。
+   - Resident Type: Non-Resident
+   - Start Path: StartNFWPS.bat
+   - Stop Path: StopNFWPS.bat
+   - Exec User (Start): Administrator account and password 
+   - Exec User (Stop): Administrator account and password 
+1. 各リソースの依存関係 (Depth) を以下のように設定してください。
+   |Depth|Resource Type|Resource Name|備考|
+   |-|-------------|-------------|-------|
+   |0|Floting IP   |fip||
+   |1|Mirror Disk  |md||
+   |2|Service      |service-mssql|SQL Server 制御用|
+   |3|Service      |service-iis  |IIS 制御用|
+   |4|Service      |service-nfwss|NeoFace System Service 制御用|
+   |5|Service      |service-nfwhs|NeoFace Host Service 制御用|
+   |6|Application  |appli-nfwps  |サーバ nfw04 の NeoFace Processing Service 制御用|
+1. 構成情報をクラスタに反映してください。
+
+## クラスタの動作確認
+1. サーバ nfw01 にてフェイルオーバグループを起動してください。以下のサービスが起動していることを確認してください。
+   - nfw01
+     - NeoFace Host Service
+     - NeoFace System Service
+     - SQL Server (NEOFACE)
+     - World Wide Web Publishing Service
+   - nfw04
+     - NeoFace Processing Service
+1. フェイルオーバグループを停止し、以下のサービスが停止していることを確認してください。
+   - nfw01
+     - NeoFace Host Service
+     - NeoFace System Service
+     - SQL Server (NEOFACE)
+     - World Wide Web Publishing Service
+   - nfw04
+     - NeoFace Processing Service
+1. サーバ nfw02 にてフェイルオーバグループを起動してください。以下のサービスが起動していることを確認してください。
+   - nfw02
+     - NeoFace Host Service
+     - NeoFace System Service
+     - SQL Server (NEOFACE)
+     - World Wide Web Publishing Service
+   - nfw04
+     - NeoFace Processing Service
+1. フェイルオーバグループを nfw02 から nfw01 へ移動してください。以下のサービスが起動していることを確認してください。
+   - nfw01
+     - NeoFace Host Service
+     - NeoFace System Service
+     - SQL Server (NEOFACE)
+     - World Wide Web Publishing Service
+   - nfw04
+     - NeoFace Processing Service
