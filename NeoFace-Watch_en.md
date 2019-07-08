@@ -78,8 +78,8 @@
 1. Select **Advanced Setup** and click Next.
 1. Select **Single/Primary Server** and click Next.
 1. Check **Dashboard** and **Camera Capture**, then click Next.
-1. Set **Floating IP Address** for **IP Address**. Set the mirror disk drive path (e.g. M:\Program Files\NEC\NeoFace\Watch\ImageLibrary) for **Folder**. Set port number and IP Address of LM-X License Manager .
-1. Set server name and instance name to **SQL Server/Instance** (e.g. NFW01/NEOFACE). Set **WatchSA** for Username and click Next.
+1. Set **Floating IP Address** for **IP Address**. Set the mirror disk drive path (e.g. M:\Program Files\NEC\NeoFace\Watch\ImageLibrary) for **Folder**. Set port number and IP Address of LM-X License Manager and click Next.
+1. Set server name and instance name to **SQL Server/Instance** (e.g. NFW01/NEOFACE). Set **WatchSA** for **Username** and click Next.
 1. Set HTTP Port and click Next.
 1. Finish the installer.
 1. Check if NeoFace Watch services and SQL Server as below are running. If they are running, stop them.
@@ -97,12 +97,12 @@
 1. Run NeoFace Watch installer on **nfw02**.
 1. Do the same installation steps on **nfw02**.
 1. Move back the failover group from **nfw02** to **nfw01**.
-1. Start **SQL Server (NEOFACE)** service.
+1. Start **SQL Server (NEOFACE)** service on nfw01.
 1. Start SQL Management Studio and connect to Database Engine with **sa** account.
    1. Click Security, right-click Logins and click **New Login**.
    1. Set **nfw01/Administrator** to **Login name** on General page.
    1. Select **Server Role** page, check **sysadmin** and click OK.
-1. Start the following services.
+1. Start the following services on nfw01.
    - NeoFace Watch System Service
    - NeoFace Watch Host Service
    - World Wide Web Publishing Service
