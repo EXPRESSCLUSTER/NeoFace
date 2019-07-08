@@ -47,25 +47,28 @@
 
 ## Prerequisite
 - Do the following installation steps with **Administrator** accout.
-- Download PsExec.exe from Microsoft web site and save it on EXPRESSCLUSTER bin directory (e.g. C:\Program Files\EXPRESSCLUSTER\bin).
-- Download the [script files](https://github.com/EXPRESSCLUSTER/NeoFace/tree/master/script/NeoFace-Watch) and save the files on EXPRESSCLUSTER bin directory (e.g. C:\Program Files\EXPRESSCLUSTER\bin). And modify ServerList.txt to add a server runs NeoFace Processing Service.
+- Download PsExec.exe from Microsoft web site.
+- Download the [script files](https://github.com/EXPRESSCLUSTER/NeoFace/tree/master/script/NeoFace-Watch) and modify ServerList.txt to add a server runs NeoFace Processing Service.
 
 ## Install EXPRESSCLUSTER
 1. Install EXPRESSCLUSTER on both nfw01 and nfw02 following **Installation and Configuration Guide**.
 1. Register the licenses.
+1. Save PsExec.exe and the script files on EXPRESSCLUSTER bin directory (e.g. C:\Program Files\EXPRESSCLUSTER\bin).
 1. Restart both nodes.
 
 ## Create Base Cluster
-1. Launch a web browser and access http://_nfw01-IP-address_:29003.
-1. Click **WebManager** to create a cluster.
+1. Launch a web browser and enter the following URL. Cluster WebUI starts up.
+   ```
+   http://<IP address of nfw01>:29003.
+   ```
+1. Click **WebManager** and switch to **Config Mode**.
 1. Add nfw02.
 1. Add a failover group.
 1. Add following group resources.
    - Floating IP (fip)
    - Mirror Disk (md)
-1. Add any monitor resource if you want to setup.
 1. Apply the cluster configuration that you have created.
-1. Start the cluster.
+1. Switch to **Operation Mode** and start the cluster.
 1. Wait for the initial full copy of the mirror disk to be completed.
 1. Check if the failover group is running on **nfw01**. If not, move the failover group from nfw02 to nfw01.
 
