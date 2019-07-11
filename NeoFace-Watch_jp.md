@@ -36,10 +36,10 @@
  |  | - LM-X License Server        |
  |  +------------------------------+
  |
- |  +------------------------------+
- +--| Node #4                      |
-    | - Windows Server 2016        |
-    | - NeoFace Watch              |
+ |  +------------------------------+  +----------------+
+ +--| Node #4 - nfw04              |--| Network Camera |
+    | - Windows Server 2016        |  | - AXIS M1124   |
+    | - NeoFace Watch              |  +----------------+
     |   NeoFace Processing Service |
     +------------------------------+
 ```

@@ -39,8 +39,8 @@
  |
  |  +------------------------------+  +----------------+
  +--| Node #4 - nfw04              |--| Network Camera |
-    | - Windows Server 2016        |  +----------------+
-    | - NeoFace Watch              |
+    | - Windows Server 2016        |  | - AXIS M1124   |
+    | - NeoFace Watch              |  +----------------+
     |   NeoFace Processing Service |
     +------------------------------+
 ```
